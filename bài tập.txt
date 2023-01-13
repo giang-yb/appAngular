@@ -1,0 +1,17 @@
+"Trang quản lý danh sách nhân viên của phòng eFin
+1. công nghệ sử dụng
+        - sử dụng Angular 14
+        - dữ liệu sử dụng mock data từ https://mockapi.io/
+        - sử dụng framework UI: ngzorro
+2. yêu cầu
+        - nhân viên: tên, năm sinh, giới tính, chức vụ, quê quán, mã nhân viên, thiết bị đang sử dụng, ngày nhận việc, số điện thoại,email, team (FE, BE), ngôn ngữ lập trình chính: java, C#, javascript
+        - trang danh sách người dùng: xem được các dữ liệu sau: mã nhân viên, tên nhân viên, chức vụ, có phân trang ( trưởng phòng thì màu xanh, phó phòng thì màu vàng, trưởng nhóm màu xám)
+                + có chức năng tìm kiếm, lọc theo chức vụ.
+        - thông tin cá nhân (mở bằng dạng popup): xem đầy đủ thông tin của nhân viên
+        - thêm sửa xóa nhân viên theo rule: chỉ cấp trên được phép thêm/sửa/xóa cấp dưới.
+        - đăng nhập: theo user, fix cứng 4 user cho các loại sau: trưởng phòng, phó phòng, trưởng nhóm, nhân viên, thực tập theo role tương ứng (TP,PP,TN,NV)
+                + tài khoản: không dấu, chỉ được nhập tên + số, không được nhập ký tự đặc biệt
+                + mật khẩu: 8 ký tự, 1 viết hoa, 1 viết thường, không dấu
+                + đăng nhập thành công sẽ lưu token vào sessionStorage (token gen ngẫu nhiên 10 ký tự)
+        - đăng xuất
+"

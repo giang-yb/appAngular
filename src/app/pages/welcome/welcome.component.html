@@ -1,0 +1,115 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="#" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+        <h1>eFin</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/welcome">Nhân viên </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/login" (click)="logOut()">Đăng xuất</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider><!-- end sider -->
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <div class="app-header">
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          </span>
+          <span class="user-name"> Xin chào {{tenNhanVien}} </span>
+        </div>
+      </div>
+    </nz-header><!-- end header -->
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>
+          Dashboard
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          Nhân viên
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content">
+        <div class="header-table" style="display: flex; justify-content:flex-end; margin-bottom: 20px;">
+          <div nz-col nzSpan="4" class="height-50">
+            <app-search-user (searchTextChanged)="onSearchTextEntered($event)"></app-search-user>
+          </div>
+          <div nz-col>
+            <button [disabled]="roleAction() === 'nhan-vien'" nz-tooltip nzTooltipTitle="add user" nzTooltipPlacement="top"
+              nz-button nzType="primary" nzTheme="outline" style="margin-left: 20px" (click)="showModal('ADD')">
+              <a nz-icon nzType="plus">Add</a>
+            </button>
+          </div>
+        </div>
+        <nz-table #table nzShowPagination [nzPageSize]="10" nzShowSizeChanger [nzData]="users">
+          <thead>
+            <tr>
+              <th>Mã nhân viên</th>
+              <th>Họ và tên</th>
+              <th>Chức vụ</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let user of table.data">
+            <tr *ngIf="searchText === '' || user.chucVu.toLowerCase().includes(searchText)">
+              <td>{{ user.maNV }}</td>
+              <td> <span [ngClass]="getRole(user.chucVu)">{{ user.tenNV }}</span></td>
+              <td [ngSwitch]="user.chucVu">
+                <span *ngSwitchCase="'Nhan vien'">Nhân viên</span>
+                <span *ngSwitchCase="'Truong nhom'">Trưởng nhóm</span>
+                <span *ngSwitchCase="'Pho phong'">Phó phòng</span>
+                <span *ngSwitchCase="'Truong phong'">Trưởng phòng</span>
+              </td>
+              <td>
+                <div class="action">
+                  <!-- ===== ACTION ===== -->
+                  <button nz-button nzType="primary" nzTheme="outline" [nzSize]="'small'" nz-tooltip
+                    nzTooltipTitle="view user" nzTooltipPlacement="top" (click)="showModal('VIEW', user)">
+                    <a nz-icon nzType="more">View</a>
+                  </button>
+                  <button nz-button nzType="primary" [disabled]="(
+                    (roleAction() === 'nhan-vien') || 
+                    ((roleAction() === 'pho-phong') && checkRole(user.chucVu) === 'truong-phong')) || 
+                    ((roleAction() === 'truong-nhom') && ((checkRole(user.chucVu) === 'truong-phong') || checkRole(user.chucVu) === 'pho-phong')
+                    )"
+                    nzTheme="outline" [nzSize]="'small'" nz-tooltip nzTooltipTitle="update user"
+                    nzTooltipPlacement="top" (click)="showModalEdit(user.maNV)">
+                    <a nz-icon nzType="edit">Edit</a>
+                  </button>
+                  <button nz-button nzType="primary" [disabled]="((roleAction() === 'nhan-vien') || (roleAction() === 'pho-phong') && checkRole(user.chucVu) === 'truong-phong') ||
+                    ((roleAction() === 'truong-nhom') && ((checkRole(user.chucVu) === 'truong-phong') || checkRole(user.chucVu) === 'pho-phong'))"
+                    nzDanger nzTheme="outline" [nzSize]="'small'" nz-tooltip nzTooltipTitle="delete user"
+                    nzTooltipPlacement="top" (click)="showDeleteConfirm(user)">
+                    <a nz-icon nzType="delete">Delete</a>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-content>
+  </nz-layout>
+  <!-- end layout -->
+</nz-layout>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Detail of Employee" (nzOnCancel)="handleCancel()" [nzFooter]="null"  >
+  <ng-container *nzModalContent>
+    <div *ngIf="(checkAction === false); else readOnly">
+      <app-detail (hideEvent)="handleOk($event, $event)" [detail]="userSelected"></app-detail>
+    </div>
+    <ng-template #readOnly>
+      <app-new-detail [detail]="userSelected"></app-new-detail>
+    </ng-template>
+  </ng-container>
+</nz-modal>

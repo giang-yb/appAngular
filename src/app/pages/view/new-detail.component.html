@@ -1,0 +1,60 @@
+<div class="container">
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle=" Tên nhân viên">
+            {{detail?.tenNV}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Năm sinh">
+            {{detail?.namSinh | date: 'dd-MM-yyyy' }}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Giới tính">
+            {{(detail?.gioiTinh == 1) ? 'Male' : 'Female'}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Chức vụ" [ngSwitch]="detail?.chucVu">
+            <span *ngSwitchCase="'Nhan vien'">Nhân viên</span>
+            <span *ngSwitchCase="'Truong nhom'">Trưởng nhóm</span>
+            <span *ngSwitchCase="'Pho phong'">Phó phòng</span>
+            <span *ngSwitchCase="'Truong phong'">Trưởng phòng</span>
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Quê quán">
+            {{detail?.queQuan}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Thiết bị đang sử dụng">
+            {{detail?.deviceUsed}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Ngày nhận việc">
+            {{detail?.ngayNhanViec | date:'dd-MM-yyyy'}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Số điện thoại">
+            {{detail?.soDienThoai}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Email">
+            {{detail?.email}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Team">
+            {{detail?.team}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions>
+        <nz-descriptions-item nzTitle="Program language">
+            {{detail?.programLanguage}}
+        </nz-descriptions-item>
+    </nz-descriptions>
+</div>

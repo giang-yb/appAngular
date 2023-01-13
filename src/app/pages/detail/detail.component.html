@@ -1,0 +1,189 @@
+<form nz-form *ngIf="detailForm" [formGroup]="detailForm">
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="tenNV">Name</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Name is required">
+                <div *ngIf="!detail?.tenNV; else name">
+                    <input nz-input placeholder="Tên nhân viên" formControlName="tenNV" id="add">
+                </div>
+                <ng-template #name>
+                    <input nz-input placeholder="Tên nhân viên" id="edit" formControlName="tenNV">
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="namSinh">Năm sinh</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="DoB is required">
+                <div *ngIf="!detail?.namSinh; else dob">
+                    <nz-date-picker style="width: 100%;" nzFormat="dd-MM-yyyy"
+                        formControlName="namSinh"></nz-date-picker>
+                </div>
+                <ng-template #dob>
+                    <nz-date-picker style="width: 100%;" nzFormat="dd-MM-yyyy"
+                        formControlName="namSinh"></nz-date-picker>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="gioiTinh">Giới tính</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Gender is required">
+                <div *ngIf="!detail?.gioiTinh; else sex">
+                    <nz-select formControlName="gioiTinh">
+                        <nz-option nzValue="1" nzLabel="Male"></nz-option>
+                        <nz-option nzValue="0" nzLabel="Female"></nz-option>
+                    </nz-select>
+                </div>
+                <ng-template #sex>
+                    <!-- <input nz-input placeholder="Giới tính" formControlName="gioiTinh"> -->
+                    <nz-select formControlName="gioiTinh">
+                        <nz-option nzValue="{{detail?.gioiTinh}}"
+                            nzLabel="{{(detail?.gioiTinh == 1) ? 'Male' : 'Female'}}"></nz-option>
+                        <nz-option nzValue="1" nzLabel="Male"></nz-option>
+                        <nz-option nzValue="0" nzLabel="Female"></nz-option>
+                    </nz-select>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="chucVu">Chức vụ</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Position is required">
+                <div *ngIf="!detail?.chucVu; else poisition">
+                    <nz-select formControlName="chucVu">
+                        <nz-option nzValue="Nhan vien" nzLabel="Nhân viên"></nz-option>
+                        <nz-option [nzDisabled]="checkRole()===3" nzValue="Truong nhom"
+                            nzLabel="Trưởng nhóm"></nz-option>
+                        <nz-option [nzDisabled]="checkRole()===3 || checkRole()===2" nzValue="Pho phong"
+                            nzLabel="Phó phòng"></nz-option>
+                        <nz-option [nzDisabled]="checkRole()===3 || checkRole()===2" nzValue="Truong phong"
+                            nzLabel="Trưởng phòng"></nz-option>
+                    </nz-select>
+                </div>
+                <ng-template #poisition>
+                    <nz-select formControlName="chucVu">
+                        <!-- <nz-option nzValue="{{detail?.gioiTinh}}" nzLabel="{{(detail?.gioiTinh == 1) ? 'Male' : 'Female'}}"></nz-option> -->
+                        <nz-option nzValue="Nhan vien" nzLabel="Nhân viên"></nz-option>
+                        <nz-option nzValue="Truong nhom" nzLabel="Trưởng nhóm"></nz-option>
+                        <nz-option nzValue="Pho phong" nzLabel="Phó phòng"></nz-option>
+                        <nz-option nzValue="Truong phong" nzLabel="Trưởng phòng"></nz-option>
+                    </nz-select>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="queQuan">Quê quán</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Hometown is required">
+                <div *ngIf="!detail?.queQuan else quequan">
+                    <input nz-input placeholder="Quê quán" formControlName="queQuan">
+                </div>
+                <ng-template #quequan>
+                    <input nz-input placeholder="Quê quán" formControlName="queQuan">
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="deviceUsed">Thiết bị đang sử dụng</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Device used is required">
+                <div *ngIf="!detail?.deviceUsed; else deviceUsed">
+                    <input nz-input placeholder="Thiết bị đang sử dụng" formControlName="deviceUsed" />
+                </div>
+                <ng-template #deviceUsed>
+                    <input nz-input placeholder="Thiết bị đang sử dụng" formControlName="deviceUsed" />
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="ngayNhanViec">Ngày nhận việc</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Date start work is required">
+                <div *ngIf="!detail?.ngayNhanViec; else ngayNhanViec">
+                    <nz-date-picker style="width: 100%;" nzFormat="dd-MM-yyyy"
+                        formControlName="ngayNhanViec"></nz-date-picker>
+                </div>
+                <ng-template #ngayNhanViec>
+                    <nz-date-picker style="width: 100%;" nzFormat="dd-MM-yyyy"
+                        formControlName="ngayNhanViec"></nz-date-picker>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="soDienThoai">Số điện thoại</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Phone number is required">
+                <div *ngIf="!detail?.soDienThoai; else soDienThoai">
+                    <div style="display: flex;">
+                        <nz-select formControlName="numberPrefix" style="width: 70px;">
+                            <nz-option nzValue="+84" nzLabel="+84"></nz-option>
+                            <nz-option nzValue="+86" nzLabel="+86"></nz-option>
+                        </nz-select>
+                        <input nz-input placeholder="Số điện thoại" maxlength="9" formControlName="soDienThoai"
+                            OnlyNumber />
+                    </div>
+                </div>
+                <ng-template #soDienThoai>
+                    <div style="display: flex;">
+                        <nz-select formControlName="numberPrefix" style="width: 70px;">
+                            <nz-option nzValue="+84" nzLabel="+84"></nz-option>
+                            <nz-option nzValue="+86" nzLabel="+86"></nz-option>
+                        </nz-select>
+                        <input nz-input placeholder="Số điện thoại" formControlName="soDienThoai" OnlyNumber />
+                    </div>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="email">Email</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Email is required">
+                <div *ngIf="!detail?.email; else email">
+                    <input nz-input placeholder="Email" formControlName="email" />
+                </div>
+                <ng-template #email>
+                    <input nz-input placeholder="Email" formControlName="email" />
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="team">Team</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Team is required">
+                <div *ngIf="!detail?.team; else team">
+                    <input nz-input placeholder="Team" formControlName="team" />
+                </div>
+                <ng-template #team>
+                    <input nz-input placeholder="Team" formControlName="team" />
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="form-group">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired nzFor="programLanguage">Program language</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="Program language is required">
+                <div *ngIf="!detail?.programLanguage; else programLanguage">
+                    <input nz-input placeholder="Program language" formControlName="programLanguage" />
+                </div>
+                <ng-template #programLanguage>
+                    <input nz-input placeholder="Program language" formControlName="programLanguage" />
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="action">
+        <button nz-button nzType="primary" nzTheme="outline" [nzSize]="'small'" [nzLoading]="isLoading"
+            (click)="submitData()">Submit</button>
+    </div>
+</form>

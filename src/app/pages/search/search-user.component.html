@@ -1,0 +1,7 @@
+<nz-input-group [nzSuffix]="suffixIconSearch">
+    <input type="text" nz-input placeholder="Chức vụ" [(ngModel)]="enteredSearchValue"
+        (input)="onSearchTextChanged()" />
+</nz-input-group>
+<ng-template #suffixIconSearch>
+    <span nz-icon nzType="search"></span>
+</ng-template>
